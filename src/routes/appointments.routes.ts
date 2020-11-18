@@ -1,41 +1,39 @@
-import {Router} from 'express';
-import {startOfHour,parseISO} from 'date-fns'
+import { Router } from 'express';
+import { parseISO } from 'date-fns';
 
-import AppointmentsRepository from '../repositories/AppointmentsRepository'
+import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import CreateAppointmentService from '../services/CreateAppointmentService';
 // import Appointment from '../models/Appointment';
 
-const appoitmentsRouter = Router();
+const appointmentsRouter = Router();
 
+const appointmentsRepository = new AppointmentsRepository();
 
-const appointmentsRepository = new AppointmentsRepository(); 
+appointmentsRouter.get('/', (request, response) => {
+  const appointments = appointmentsRepository.all();
 
-appoitmentsRouter.get('/', (request,response) =>{
-    const appointments = appointmentsRepository.all();
+  return response.json(appointments);
+});
 
-    return response.json(appointments);
-})
+appointmentsRouter.post('/', (request, response) => {
+  const { provider, date } = request.body;
 
-appoitmentsRouter.post('/',(request,response)=>{
-    const {provider, date} = request.body;
+  try {
+    const parsedDate = parseISO(date);
 
-    const parsedDate = startOfHour(parseISO(date))
+    const createAppointment = new CreateAppointmentService(
+      appointmentsRepository,
+    );
 
-    const findAppointmentInSameDate = appointmentsRepository.findByDate(parsedDate)
-
-    if(findAppointmentInSameDate){
-        return response
-            .status(400)
-            .json({mensage: "This appointment is already booked"})
-    }
-
-    const appointment = appointmentsRepository.create({
-        provider,
-        date : parsedDate,
-    })
-    
+    const appointment = createAppointment.execute({
+      date: parsedDate,
+      provider,
+    });
 
     return response.json(appointment);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
 
-})
-
-export default appoitmentsRouter;
+export default appointmentsRouter;
