@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
+import 'reflect-metadata';
 import express, { json } from 'express';
 import routes from './routes';
+
 
 import './database';
 
@@ -10,5 +12,5 @@ app.use(json());
 app.use(routes);
 
 app.listen(3333, () => {
-  console.log('🎈 Server started on port 3333');
+  console.log('🚀 Server started on port 3333');
 });
