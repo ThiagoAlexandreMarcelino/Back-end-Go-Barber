@@ -14,11 +14,14 @@ class User {
   @Column()
   name: string;
 
-  @Column('timestamp with time zone')
+  @Column()
   email: string;
 
   @Column()
   password: string;
+
+  @Column()
+  avatar: string;
 
   @CreateDateColumn()
   created_at: Date;
