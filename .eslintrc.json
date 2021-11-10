@@ -26,6 +26,7 @@
     "prettier/prettier": "error",
     "class-methods-use-this":"off",
     "camelcase": "off",
+    "interface-name-prefix":["error",{"prefixWithI": "always"}],
     "no-underscore-dangle":"off",
     "import/extensions": [
       "error",
@@ -34,6 +35,7 @@
         "ts": "never"
       }
     ]
+
   },
   "settings": {
     "import/resolver": {
