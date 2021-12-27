@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getCustomRepository } from 'typeorm';
 import { parseISO } from 'date-fns';
+import { container } from 'tsyringe';
 
 import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
@@ -10,18 +10,20 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 
 const appointmentsRouter = Router();
 
-// const appointmentsRepository = new AppointmentsRepository();
+
 
 appointmentsRouter.use(ensureAuthenticated);
 
-appointmentsRouter.get('/', async (request, response) => {
-  const appointmentsRepository = getCustomRepository(AppointmentsRepository);
-  const appointments = await appointmentsRepository.find();
+// appointmentsRouter.get('/', async (request, response) => {
 
-  return response.json(appointments);
-});
+//   const appointments = await appointmentsRepository.find();
+
+//   return response.json(appointments);
+// });
 
 appointmentsRouter.post('/', async (request, response) => {
+
+  // const appointmentsRepository = new AppointmentsRepository();
   const { provider_id, date } = request.body;
 
   const parsedDate = await parseISO(date);
@@ -30,7 +32,11 @@ appointmentsRouter.post('/', async (request, response) => {
     //   appointmentsRepository,
     // );
 
-    const createAppointment = new CreateAppointmentService();
+    //sem injeção de dependencia
+    // const createAppointment = new CreateAppointmentService(appointmentsRepository);
+
+    //com injeção de dependecia
+    const createAppointment =  container.resolve(CreateAppointmentService);
 
     const appointment = await createAppointment.execute({
       date: parsedDate,
