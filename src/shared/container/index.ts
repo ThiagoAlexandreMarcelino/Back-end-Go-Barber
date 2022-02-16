@@ -4,6 +4,8 @@ import IUsersRepository from "@modules/users/repositories/IUsersRepository";
 import AppointmentsRepository from "@modules/appointments/infra/typeorm/repositories/AppointmentsRepository";
 import IAppointmentsRepository from "@modules/appointments/repositories/IAppointmentsRepository";
 
+import '@modules/users/providers'
+
 import { container } from "tsyringe";
 
 
