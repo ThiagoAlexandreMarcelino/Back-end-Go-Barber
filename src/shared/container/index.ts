@@ -5,6 +5,7 @@ import AppointmentsRepository from "@modules/appointments/infra/typeorm/reposito
 import IAppointmentsRepository from "@modules/appointments/repositories/IAppointmentsRepository";
 
 import '@modules/users/providers'
+import './providers'
 
 import { container } from "tsyringe";
 

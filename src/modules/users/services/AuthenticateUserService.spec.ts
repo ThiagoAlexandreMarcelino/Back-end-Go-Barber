@@ -53,7 +53,7 @@ describe("Authenticate User", ()=>{
     const authenticateUserService = new AuthenticateUserService(fakeUsersRepository,fakeHashProvider);
     const createUserService = new CreateUserService(fakeUsersRepository,fakeHashProvider);
 
-   const user = await createUserService.execute({
+  await createUserService.execute({
       name: 'Thiago',
       email:'blablabla@email.com',
       password: '12345',
@@ -62,7 +62,7 @@ describe("Authenticate User", ()=>{
 
     expect(authenticateUserService.execute({
       email:'blablabla@email.com',
-      password: 'wrong-password'
+      password: 'wrong-password',
     })).rejects.toBeInstanceOf(AppError)
 
 
