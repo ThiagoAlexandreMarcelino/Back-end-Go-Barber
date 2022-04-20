@@ -6,7 +6,8 @@ import {
 } from 'typeorm';
 
 export default class AlterProviderFieltoProviderId1607389485927
-  implements MigrationInterface {
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropColumn('appointments', 'provider');
     await queryRunner.addColumn(

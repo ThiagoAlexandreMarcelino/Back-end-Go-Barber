@@ -6,13 +6,12 @@ import { Router } from 'express';
 // import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 // import Appointment from '../models/Appointment';
 
-import AppointmentsController from '../controllers/AppointmentsController';
-
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import AppointmentsController from '../controllers/AppointmentsController';
 
 const appointmentsRouter = Router();
 
-const appointmentsController = new AppointmentsController()
+const appointmentsController = new AppointmentsController();
 
 appointmentsRouter.use(ensureAuthenticated);
 
@@ -23,32 +22,31 @@ appointmentsRouter.use(ensureAuthenticated);
 //   return response.json(appointments);
 // });
 
-appointmentsRouter.post('/', appointmentsController.create)
-
+appointmentsRouter.post('/', appointmentsController.create);
 
 // {
 
-  // const appointmentsRepository = new AppointmentsRepository();
-  // const { provider_id, date } = request.body;
+// const appointmentsRepository = new AppointmentsRepository();
+// const { provider_id, date } = request.body;
 
-  // const parsedDate = await parseISO(date);
+// const parsedDate = await parseISO(date);
 
-    // const createAppointment = new CreateAppointmentService(
-    //   appointmentsRepository,
-    // );
+// const createAppointment = new CreateAppointmentService(
+//   appointmentsRepository,
+// );
 
-    //sem injeção de dependencia
-    // const createAppointment = new CreateAppointmentService(appointmentsRepository);
+// sem injeção de dependencia
+// const createAppointment = new CreateAppointmentService(appointmentsRepository);
 
-    //com injeção de dependecia
-    // const createAppointment =  container.resolve(CreateAppointmentService);
+// com injeção de dependecia
+// const createAppointment =  container.resolve(CreateAppointmentService);
 
-    // const appointment = await createAppointment.execute({
-    //   date: parsedDate,
-    //   provider_id,
-    // });
+// const appointment = await createAppointment.execute({
+//   date: parsedDate,
+//   provider_id,
+// });
 
-    // return response.json(appointment);
+// return response.json(appointment);
 
 // });
 
