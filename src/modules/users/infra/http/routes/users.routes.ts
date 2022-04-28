@@ -4,8 +4,8 @@ import multer from 'multer';
 import uploadConfig from '@config/upload';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
-import UsersController from '../../controllers/UsersConrtroller';
-import UserAvatarController from '../../controllers/UserAvatarController';
+import UsersController from '../controllers/UsersConrtroller';
+import UserAvatarController from '../controllers/UserAvatarController';
 
 // import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 

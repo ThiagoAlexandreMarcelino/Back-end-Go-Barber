@@ -4,16 +4,22 @@ import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
-describe('Update User Avatar', () => {
-  it('Should be able to update a user avatar', async () => {
-    const fakeStorageProvider = new FakeStorageProvider();
-    const fakeUsersRepository = new FakeUsersRepository();
+let fakeStorageProvider: FakeStorageProvider;
+let fakeUsersRepository: FakeUsersRepository;
+let updateUserAvatar: UpdateUserAvatarService;
 
-    const updateUserAvatar = new UpdateUserAvatarService(
+describe('Update User Avatar', () => {
+  beforeEach(() => {
+    fakeStorageProvider = new FakeStorageProvider();
+    fakeUsersRepository = new FakeUsersRepository();
+
+    updateUserAvatar = new UpdateUserAvatarService(
       fakeUsersRepository,
       fakeStorageProvider,
     );
+  });
 
+  it('Should be able to update a user avatar', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Thiago',
       email: 'blablabla@email.com',
@@ -29,14 +35,6 @@ describe('Update User Avatar', () => {
   });
 
   it('Should not be able to update user avatar a non-exinting user', async () => {
-    const fakeStorageProvider = new FakeStorageProvider();
-    const fakeUsersRepository = new FakeUsersRepository();
-
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
-
     await expect(
       updateUserAvatar.execute({
         user_id: 'non-existing-user',
@@ -46,15 +44,7 @@ describe('Update User Avatar', () => {
   });
 
   it('Should delete old avatar when updating new one', async () => {
-    const fakeStorageProvider = new FakeStorageProvider();
-    const fakeUsersRepository = new FakeUsersRepository();
-
     const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
-
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
 
     const user = await fakeUsersRepository.create({
       name: 'Thiago',
