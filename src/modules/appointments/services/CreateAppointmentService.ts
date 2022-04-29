@@ -1,6 +1,6 @@
 import { startOfHour } from 'date-fns';
 
-import { container, inject, injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 
