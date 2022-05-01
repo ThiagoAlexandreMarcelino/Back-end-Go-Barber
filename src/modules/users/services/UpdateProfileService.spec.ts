@@ -104,14 +104,26 @@ describe('Update Profile', () => {
       password: '123456',
     });
 
-    const updatedUser = await updateProfile.execute({
-      user_id: user.id,
-      name: 'User Updated',
-      email: 'me@email.com',
-      old_password: '123456',
-      password: '123123',
-    });
+    expect(
+      updateProfile.execute({
+        user_id: user.id,
+        name: 'Thiago',
+        email: 'me@email.com',
+        old_password: '121221',
+        password: '123123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 
-    expect(updatedUser.password).toBe('123123');
+  it('Should not be able to update an non existing user', async () => {
+    expect(
+      updateProfile.execute({
+        user_id: 'non-existing-user',
+        name: 'Thiago',
+        email: 'me@email.com',
+        old_password: '121221',
+        password: '123123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

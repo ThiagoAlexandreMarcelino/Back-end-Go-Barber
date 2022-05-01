@@ -3,8 +3,9 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 } from 'uuid';
-import { isEqual, getMonth, getYear } from 'date-fns';
+import { isEqual, getMonth, getYear, getDate } from 'date-fns';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
+import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
 
 import IAppointmentsRepository from '../IAppointmentsRepository';
 
@@ -13,11 +14,12 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
 
   public async create({
     provider_id,
+    user_id,
     date,
   }: ICreateAppointmentDTO): Promise<Appointment> {
     const appointment = new Appointment();
 
-    Object.assign(appointment, { id: v4(), date, provider_id });
+    Object.assign(appointment, { id: v4(), date, user_id, provider_id });
 
     this.appointments.push(appointment);
 
@@ -40,6 +42,24 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
     const appointments = this.appointments.filter(appointment => {
       return (
         appointment.provider_id === provider_id &&
+        getMonth(appointment.date) + 1 === month &&
+        getYear(appointment.date) === year
+      );
+    });
+
+    return appointments;
+  }
+
+  public async findAllInDayFromProvider({
+    provider_id,
+    day,
+    month,
+    year,
+  }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
+    const appointments = this.appointments.filter(appointment => {
+      return (
+        appointment.provider_id === provider_id &&
+        getDate(appointment.date) === day &&
         getMonth(appointment.date) + 1 === month &&
         getYear(appointment.date) === year
       );
