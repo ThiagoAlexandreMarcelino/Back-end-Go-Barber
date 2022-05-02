@@ -11,7 +11,7 @@ interface IRequest {
   name: string;
   email: string;
   old_password?: string;
-  password: string;
+  password?: string;
 }
 
 @injectable()
@@ -36,32 +36,32 @@ class UpdateProfileService {
     if (!user) {
       throw new AppError('User does not exists');
     }
-
     const userWithupdatedEmail = await this.usersRepository.findByEmail(email);
 
     if (userWithupdatedEmail && userWithupdatedEmail.id !== user_id) {
       throw new AppError('E-mail already in use');
     }
-
     user.name = name;
     user.email = email;
 
-    if (password && !old_password) {
+    if (!old_password) {
       throw new AppError('You need to inform the old password');
     }
 
-    if (password && old_password) {
-      const comparePassword = await this.hashProvider.compareHash(
-        old_password,
-        user.password,
-      );
-
-      if (!comparePassword) {
-        throw new AppError('Old password wrong');
-      }
-
-      user.password = await this.hashProvider.generateHash(password);
+    if (!password) {
+      throw new AppError('You need to inform the new password');
     }
+
+    const comparePassword = await this.hashProvider.compareHash(
+      old_password,
+      user.password,
+    );
+
+    if (!comparePassword) {
+      throw new AppError('Old password wrong');
+    }
+
+    user.password = await this.hashProvider.generateHash(password);
 
     return this.usersRepository.save(user);
   }
