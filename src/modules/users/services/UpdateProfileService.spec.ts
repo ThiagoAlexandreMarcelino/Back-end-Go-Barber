@@ -134,8 +134,6 @@ describe('Update Profile', () => {
       password: '123456',
     });
 
-    console.log(user);
-
     await expect(
       updateProfile.execute({
         user_id: user.id,

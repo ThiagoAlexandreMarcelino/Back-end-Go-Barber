@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
+import 'dotenv/config';
 import express, { json, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
+import { errors } from 'celebrate';
 import 'express-async-errors';
 
 import uploadConfig from '@config/upload';
@@ -17,6 +19,7 @@ app.use(cors());
 app.use(json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(routes);
+app.use(errors());
 
 app.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
