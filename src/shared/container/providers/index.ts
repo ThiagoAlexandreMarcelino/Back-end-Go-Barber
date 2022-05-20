@@ -1,6 +1,7 @@
 import { container } from 'tsyringe';
 
-import DiskStorageProvider from './StorageProviders/implementations/DiskStorageProvider';
+import S3StorageProvider from './StorageProviders/implementations/S3StorageProvider';
+// import DiskStorageProvider from './StorageProviders/implementations/DiskStorageProvider';
 import IStorageProvider from './StorageProviders/models/IStorageProvider';
 
 import IMailProvider from './MailProvider/models/IMailProvider';
@@ -11,7 +12,7 @@ import HandlebarsMailTemplateProvider from './MailTemplateProvider/implementatio
 
 container.registerSingleton<IStorageProvider>(
   'StorageProvider',
-  DiskStorageProvider,
+  S3StorageProvider,
 );
 
 container.registerSingleton<IMailTemplateProvider>(
