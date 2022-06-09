@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UpdateProfileService from '@modules/users/services/UpdateProfileService';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
+import { instanceToPlain } from 'class-transformer';
 
 import { container } from 'tsyringe';
 
@@ -11,9 +12,7 @@ export default class UserProfileController {
     const showProfile = container.resolve(ShowProfileService);
     const user = await showProfile.execute({ user_id });
 
-    user.password = '';
-
-    return response.json(user);
+    return response.json({ user: instanceToPlain(user) });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -29,11 +28,9 @@ export default class UserProfileController {
       old_password,
     });
 
-    user.password = '';
-
     // devido ao dar erro no operador 'delete' do js, deletei o password desta forma
     // delete user.password
 
-    return response.json(user);
+    return response.json({ user: instanceToPlain(user) });
   }
 }
