@@ -18,14 +18,14 @@ interface IRequest {
 @injectable()
 class CreateAppointmentService {
   constructor(
-    @inject('AppointmentsRepository')
-    private appointmentsRepository: IAppointmentsRepository,
-
     @inject('NotificationsRepository')
     private notificationsRepository: INotificationsRepository,
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
+
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
   ) {}
 
   public async execute({
@@ -69,12 +69,12 @@ class CreateAppointmentService {
       content: `Um novo agendamento foi criado para ${formatedDate}`,
     });
 
-    console.log(
-      `provider-appointments:${provider_id}:${format(
-        appointmentDate,
-        'yyyy-M-d',
-      )}`,
-    );
+    // console.log(
+    //   `provider-appointments:${provider_id}:${format(
+    //     appointmentDate,
+    //     'yyyy-M-d',
+    //   )}`,
+    // );
 
     await this.cacheProvider.invalidade(
       `provider-appointments:${provider_id}:${format(
